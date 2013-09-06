@@ -1,4 +1,4 @@
 StormUnit
 =========
 
-Testing frmework for Storm - based on JUnit
+Testing framework for Storm - based on JUnit
