@@ -21,10 +21,19 @@ public class MockCollector implements TridentCollector{
 	}
 	
 	public List<Object> getEmmitedTuple( int offset ){
+		if( tuplesList.isEmpty() ){
+			return null;
+		}
+		
 		return tuplesList.get( offset );
 	}
 	
 	public List<Object> getEmmitedTuple(){
+		
+		if( tuplesList.isEmpty() ){
+			return null;
+		}
+		
 		return tuplesList.getLast();
 	}
 	
@@ -33,11 +42,23 @@ public class MockCollector implements TridentCollector{
 	}
 	
 	public boolean assertTuple( List<Object> expectedTuple ){
-		return getEmmitedTuple().equals( expectedTuple );
+		List<Object> tuple = getEmmitedTuple();
+		
+		if( tuple == null ){
+			return false;
+		}
+		
+		return tuple.equals( expectedTuple );
 	}
 	
 	public boolean assertTuple( int offset, List<Object> expectedTuple ){
-		return getEmmitedTuple(offset).equals( expectedTuple );
+		List<Object> tuple = getEmmitedTuple( offset );
+		
+		if( tuple == null ){
+			return false;
+		}
+		
+		return tuple.equals( expectedTuple );
 	}
 
 	public boolean assertError(){
