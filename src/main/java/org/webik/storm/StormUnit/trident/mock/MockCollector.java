@@ -9,14 +9,15 @@ public class MockCollector implements TridentCollector{
 
 	protected LinkedList<List<Object>> tuplesList = new LinkedList<List<Object>>();
 	
+	protected Throwable lastError = null;
+	
 	public void emit( List<Object> values ) {
 		tuplesList.add( values );
 		
 	}
 
 	public void reportError(Throwable t) {
-		// TODO Auto-generated method stub
-		
+		lastError = t;
 	}
 	
 	public List<Object> getEmmitedTuple( int offset ){
@@ -39,4 +40,11 @@ public class MockCollector implements TridentCollector{
 		return getEmmitedTuple(offset).equals( expectedTuple );
 	}
 
+	public boolean assertError(){
+		return lastError != null;
+	}
+	
+	public Throwable getLastError(){
+		return lastError;
+	}
 }
