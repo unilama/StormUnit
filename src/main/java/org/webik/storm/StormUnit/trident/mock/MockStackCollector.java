@@ -3,19 +3,19 @@ package org.webik.storm.StormUnit.trident.mock;
 import java.util.List;
 import java.util.Stack;
 
-import clojure.stacktrace__init;
 import storm.trident.operation.TridentCollector;
 
 public class MockStackCollector implements TridentCollector {
 
 	protected Stack<List<Object>> tuplesStack = new Stack<List<Object>>();
+	private Throwable lastError;
 	
 	public void emit(List<Object> values) {
 		tuplesStack.push( values );
 	}
 
 	public void reportError(Throwable t) {
-		// TODO Auto-generated method stub
+		this.lastError = t; 
 	}
 	
 	public boolean assertTuple( List<Object> expectedTuple ){
@@ -25,5 +25,12 @@ public class MockStackCollector implements TridentCollector {
 		return tuplesStack.pop().equals( expectedTuple );
 	}
 	
+	public boolean assertError(){
+		return lastError != null;
+	}
+	
+	public Throwable getLastError(){
+		return lastError;
+	}
 
 }
